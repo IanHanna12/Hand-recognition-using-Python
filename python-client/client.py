@@ -30,8 +30,7 @@ def is_hand_open(hand_landmarks):
     return thumb_is_open and fingers_are_open
 
 
-def both_hands_open(multi_hand_landmarks):
-    return is_hand_open(multi_hand_landmarks[0]) and is_hand_open(multi_hand_landmarks[1])
+
 
 
 while cap.isOpened():
@@ -59,8 +58,10 @@ while cap.isOpened():
             elif hand_landmarks.landmark[mp_hands.HandLandmark.MIDDLE_FINGER_TIP].x > 0.5:  # Right hand open
                 ws.send("r")
 
-                if both_hands_open(results.multi_hand_landmarks):
-                    ws.send(" ")  # Both hands open
+            elif hand_landmarks.landmark[mp_hands.HandLandmark.THUMB_TIP].x > 0.5:
+                ws.send(" ")
+
+
 
     # Show the image
     cv2.imshow('MediaPipe Hands', frame)
